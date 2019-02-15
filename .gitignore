@@ -1,0 +1,4 @@
+*.sql
+/vendor
+/var
+/.idea

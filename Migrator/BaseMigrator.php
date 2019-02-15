@@ -32,11 +32,18 @@ class BaseMigrator
     }
 
     protected function saveSyncMap($entity){
-        \Alm\AlmArray::saveToFile($this->syncMap, $this->syncPath.$entity);
+
+        if (!file_exists($this->syncPath.$this->db->getSource())) {
+            mkdir($this->syncPath.$this->db->getSource(), 0777);
+        } else {
+            //exist
+        }
+
+        \Alm\AlmArray::saveToFile($this->syncMap, $this->syncPath.$this->db->getSource().'/'.$entity);
     }
 
     protected function loadSyncMap($entity){
-        $this->syncMap = \Alm\AlmArray::loadFromFile($this->syncPath.$entity);
+        $this->syncMap = \Alm\AlmArray::loadFromFile($this->syncPath.$this->db->getSource().'/'.$entity);
     }
 
     protected function oldIdToNewId($old){
@@ -51,7 +58,7 @@ class BaseMigrator
 
     public function oldIdToNewIdOther($old, $entity){
 
-        $map = \Alm\AlmArray::loadFromFile($this->syncPath.$entity);
+        $map = \Alm\AlmArray::loadFromFile($this->syncPath.$this->db->getSource().'/'.$entity);
 
         foreach ($map as $key => $item){
             if ($item['old'] == $old)

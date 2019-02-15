@@ -18,7 +18,7 @@ class Db
             'user' => 'root',
             'password' => 'S1nchr0ny',
             'host' => 'vpc-rds-prod.csxf0hqn0tzd.us-east-1.rds.amazonaws.com',
-            'db' => 'carpet'
+            'db' => 'miracle'
         ],
         'new' => [
             'user' => 'root',
@@ -27,26 +27,6 @@ class Db
             'db' => 'migration'
         ]
     );
-
-    /**
-     * - crossbay
-
-    - livewell
-
-    - repc
-
-    - repcny
-
-    - bko
-
-    - miracle
-
-    - pt
-
-    - btd
-
-    - nmpc
-     */
 
     public function __construct($options = [])
     {
@@ -86,6 +66,10 @@ class Db
 
     public function setSource($source){
         $this->config['old']['db'] = $source;
+    }
+
+    public function getSource(){
+        return $this->config['old']['db'];
     }
 
 }

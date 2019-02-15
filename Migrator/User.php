@@ -39,7 +39,7 @@ class User extends BaseMigrator
         $roles = $data['roles'];
         $roles = preg_replace('/\"/', '\\"', $roles);
 
-        $sql = sprintf('INSERT INTO `usuario` VALUES (%s,%s,"%s","%s","%s","%s",%s,"%s","%s",%s,%s,%s,"%s","%s",%s,"%s",%s,%s,"%s",%s)',
+        $sql = sprintf('INSERT INTO `usuario` VALUES (%s,%s,"%s","%s","%s","%s",%s,"%s","%s",%s,%s,%s,"%s","%s",%s,%s,%s,%s,"%s",%s)',
             "NULL",
               "NULL",
                 AlmArray::get($data, 'username', 'NULL'),
@@ -55,7 +55,7 @@ class User extends BaseMigrator
                 $roles,
                 AlmArray::get($data, 'nombre', 'NULL'),
                 AlmArray::get($data, 'office_id', 'NULL'),
-                AlmArray::get($data, 'phone', \Alm\AlmString::random(12)),
+                $this->getStrValue($data, 'phone'),
                 AlmArray::get($data, 'status', 1),
                 "NULL", //company id por ahora null,
                 '{\"pending.auth\":1,\"inactive.account\":1,\"unanswered.reviews\":1,\"new.invite\":1,\"new.review\":1,\"new.bad.review\":1,\"monthly.leaderboard\":1,\"weekly.leaderboard\":1,\"monthly.performance\":1,\"weekly.performance\":1,\"tagged.review\":1,\"new.user\":1,\"admin.authorized\":1,\"dashboard.completed\":1}',
@@ -63,7 +63,12 @@ class User extends BaseMigrator
             );
 
 
-        
+       $exist = $this->existUsuario($data['username'],$data['phone']);
+       if ($exist){
+           dump(sprintf('Usuario ya existe %s', $data['username']));
+           return;
+       }
+
 
        $result = $this->insert($sql, 'new');
        $this->insertedIds[] = $this->db->lastId();
@@ -78,8 +83,8 @@ class User extends BaseMigrator
        return $result;
     }
 
-    private function existUsuario($username){
-        $sql = sprintf('select id, email from usuario where username = "%s"', $username);
+    private function existUsuario($username, $phone){
+        $sql = sprintf('select id, email from usuario where username = "%s" or phone = "%s"', $username, $phone);
         $data = $this->query($sql, 'new');
 
         if (count($data) > 0)
