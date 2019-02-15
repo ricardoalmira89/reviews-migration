@@ -1,0 +1,6 @@
+{
+    "require": {
+        "symfony/var-dumper": "^4.2",
+        "azcro/alm": "^1.0"
+    }
+}
