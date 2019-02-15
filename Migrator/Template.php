@@ -18,24 +18,30 @@ class Template extends BaseMigrator
         parent::__construct();
     }
 
-    public function migrate($companyId){
+    public function migrate($options = []){
+
+        parent::migrate($options);
+
+        \Alm\AlmValidator::validate($options, array(
+            'company_id' => 'req'
+        ));
 
         $elements = array(
             sprintf('insert into template values (NULL, "%s", "%s", %s, %s )',
                 "First",
                 "Hi, :customer: Thank you for choosing :company:. Could you take 30 seconds to leave us a review using the link below? Thanks :link:",
                 1,
-                $companyId),
+                $options['company_id']),
             sprintf('insert into template values (NULL, "%s", "%s", %s, %s )',
                 "Second",
                 "Hi :customer:, Thank you for choosing :company:. Just wanted to remind you to leave us a review on Google or Facebook using the link below when you get a second. It would really help us out, thanks again! :link:",
                 2,
-                $companyId),
+                $options['company_id']),
             sprintf('insert into template values (NULL, "%s", "%s", %s, %s )',
                 "Third",
                 "Hi :customer: Thank you again for choosing :company:. This is the last time we will reach out to you. When you get a second please leave us a review using the link below, thank you! :link:",
                 3,
-                $companyId)
+                $options['company_id'])
         );
 
         foreach ($elements as $item){

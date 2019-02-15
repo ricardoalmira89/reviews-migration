@@ -72,4 +72,12 @@ class Db
         return $this->config['old']['db'];
     }
 
+    public function setDestination($source){
+        $this->config['new']['db'] = $source;
+    }
+
+    public function getDestination(){
+        return $this->config['new']['db'];
+    }
+
 }

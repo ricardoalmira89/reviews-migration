@@ -68,4 +68,20 @@ class BaseMigrator
         return null;
     }
 
+    private function configSources($options = []){
+
+        \Alm\AlmValidator::validate($options, array(
+            'source' => 'req',
+            'destination' => 'req'
+        ));
+
+        $this->db->setSource($options['source']);
+        $this->db->setDestination($options['destination']);
+
+    }
+
+    protected function migrate($options = []){
+        $this->configSources($options);
+    }
+
 }

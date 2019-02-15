@@ -18,11 +18,17 @@ class Configuration extends BaseMigrator
         parent::__construct();
     }
 
-    public function migrate($companyId){
+    public function migrate($options = []){
+
+        parent::migrate($options);
+
+        \Alm\AlmValidator::validate($options, array(
+            'company_id' => 'req'
+        ));
 
         $data = $this->query('select * from configuration', 'old');
         foreach ($data as $item){
-            $this->insertData($item, $companyId);
+            $this->insertData($item, $options['company_id']);
         }
 
         $this->saveSyncMap('configuration');

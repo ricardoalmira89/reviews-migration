@@ -18,7 +18,9 @@ class BlackList extends BaseMigrator
         parent::__construct();
     }
 
-    public function migrate(){
+    public function migrate($options = []){
+
+        parent::migrate($options);
 
         $data = $this->query('select * from blacklist', 'old');
         foreach ($data as $item){

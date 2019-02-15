@@ -21,56 +21,59 @@ require_once 'Tag.php';
 
 class Migrator
 {
-    private $arg;
+    private $options = [];
 
-    public function __construct($arg)
+    public function __construct($options = [])
     {
-        $this->arg = $arg;
+        $this->options = $options;
+
+        \Alm\AlmValidator::validate($options, array(
+            'source' => 'req',
+            'destination' => 'req'
+        ));
+
     }
 
     public function migrate(){
 
         $u = new User();
-        $u->migrate();
+        $u->migrate($this->options);
 
         $c = new Company();
-        $c->migrate();
+        $c->migrate($this->options);
 
-        $cid = $c->getId();
-        //$cid = 47;
-
-        $u->assocCompany($cid);
+        $this->options['company_id'] = $c->getId();
+        $u->assocCompany($c->getId());
 
         $o = new Office();
-        $o->migrate($cid);
+        $o->migrate($this->options);
 
         $rs = new ReviewSite();
-        $rs->migrate();
+        $rs->migrate($this->options);
 
         $t = new Template();
-        $t->migrate($cid);
+        $t->migrate($this->options);
 
         $dp = new DatoPlataforma();
-        $dp->migrate($cid);
-
+        $dp->migrate($this->options);
 
         $config = new Configuration();
-        $config->migrate($cid);
+        $config->migrate($this->options);
 
         $config = new Customer();
-        $config->migrate($cid);
+        $config->migrate($this->options);
 
         $config = new Reviews();
-        $config->migrate();
+        $config->migrate($this->options);
 
         $config = new Sms();
-        $config->migrate();
+        $config->migrate($this->options);
 
         $config = new BlackList();
-        $config->migrate();
+        $config->migrate($this->options);
 
         $config = new Tag();
-        $config->migrate();
+        $config->migrate($this->options);
     }
 
 }
