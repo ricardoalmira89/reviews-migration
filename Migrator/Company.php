@@ -41,10 +41,11 @@ class Company extends BaseMigrator
 
         $localId = $this->getLocalOwnerId($data['user_id']);
 
-        $sql = sprintf('INSERT INTO `company` VALUES (NULL,"%s","%s",%s,%s)',
+        $sql = sprintf('INSERT INTO `company` VALUES (NULL,"%s","%s",%s,%s, %s)',
             AlmArray::get($data, 'name'),
             AlmArray::get($data, 'created_at'),
             $localId,
+            1,
             1
         );
 

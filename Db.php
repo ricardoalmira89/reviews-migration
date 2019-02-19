@@ -24,7 +24,7 @@ class Db
             'user' => 'root',
             'password' => 'S1nchr0ny',
             'host' => '3.86.220.36',
-            'db' => 'migration'
+            'db' => 'reviews_dev'
         ]
     );
 

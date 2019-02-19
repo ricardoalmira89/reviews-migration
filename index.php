@@ -6,7 +6,7 @@ require_once 'Migrator/Migrator.php';
 
 
 $map = array(
-    'migration' => ['repc','crossbay', 'bko','livewell', 'nmpc', 'btd', 'pt', 'miracle']
+    'reviews_dev' => ['repc','crossbay', 'bko','livewell', 'nmpc', 'btd', 'pt', 'miracle']
 );
 
 
