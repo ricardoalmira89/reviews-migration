@@ -32,6 +32,8 @@ class User extends BaseMigrator
 
     public function assocCompany($id){
 
+        $this->deleteSupers();
+
         $sql = sprintf('update usuario set company_id = %s where id in (%s)', $id, implode(',', $this->insertedIds));
         $this->insert($sql);
     }
@@ -93,6 +95,27 @@ class User extends BaseMigrator
             return $data[0]['id'];
 
         return false;
+    }
+
+    private function deleteSupers(){
+
+        $without = [];
+        foreach ($this->insertedIds as $userId){
+            if (!$this->isSuper($userId))
+                $without[] = $userId;
+        }
+
+        $this->insertedIds = $without;
+    }
+
+    private function isSuper($id){
+        $sql = sprintf('select id, email, roles from usuario where id = %s', $id);
+        $data = $this->query($sql, 'new' );
+
+        $role = AlmArray::get($data,'0:roles');
+        preg_match('/SUPER/', $role, $matches);
+        return count($matches) > 0;
+
     }
 
 
