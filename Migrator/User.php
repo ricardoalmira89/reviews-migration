@@ -43,7 +43,7 @@ class User extends BaseMigrator
         $roles = $data['roles'];
         $roles = preg_replace('/\"/', '\\"', $roles);
 
-        $sql = sprintf('INSERT INTO `usuario` VALUES (%s,%s,"%s","%s","%s","%s",%s,"%s","%s",%s,%s,%s,"%s","%s",%s,%s,%s,%s,"%s",%s)',
+        $sql = sprintf('INSERT INTO `usuario` VALUES (%s,%s,"%s","%s","%s","%s",%s,"%s","%s",%s,%s,%s,"%s","%s",%s,%s,%s,%s,"%s",%s, NULL)',
             "NULL",
               "NULL",
                 AlmArray::get($data, 'username', 'NULL'),
